@@ -24,6 +24,13 @@ class Indicators extends Controller
         return Inertia::render('IndicatorsSGIC', $data);
     }
 
+    public function sgicManage()
+    {
+        $data = static::getProps()->toArray();
+
+        return Inertia::render('IndicatorSGICManagement', $data);
+    }
+
     public function satisfaction()
     {
         $data = static::getProps()->toArray();

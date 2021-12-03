@@ -30,6 +30,20 @@ export default {
 
         },
 
+        setDrawerItemsCurrent(ids, items){
+            ids = typeof ids === 'object'? ids : [ids];
+            items = items || this.drawer.items;
+
+            ids.forEach(id => {
+                let item = items.firstOf(item => item.id === id || this.setDrawerItemsCurrent(ids, item.items || []));
+
+                if(item)
+                    item.current = true;
+
+                return item? item.current : false;
+            });
+        },
+
         toggleDrawer() {
             this.drawer.toggle();
         },

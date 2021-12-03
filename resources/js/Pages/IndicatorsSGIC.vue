@@ -1,58 +1,56 @@
 <template>
     <drawer-layout
         :drawer="drawer"
-        title="SGIC Indicators / 2021 - 2022 / Here goes a wild title"
+        title="SGIC Indicators"
     >
-        <template v-slot:app-bar-right>
-            <sgic-app-actions />
-        </template>
+        <v-card flat :loading="loading">
+            <v-card-title>
+                <v-spacer></v-spacer>
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+            </v-card-title>
+            <v-card-text>
+                <v-data-table :headers="headers" :items="items" :search="search" dense :items-per-page="15">
+                    <template v-slot:item.actions="{ item }">
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="manage"
+                        >
+                            Manage
+                        </v-btn>
+                        <v-btn
+                            color="green darken-1"
+                            text
+                        >
+                            Download
+                        </v-btn>
+                        <v-btn
+                            color="red darken-1"
+                            text
+                        >
+                            Delete
+                        </v-btn>
+                    </template>
 
-        <v-card flat>
-            <v-tabs
-                center-active
-                color="primary"
-            >
-                <v-tab>P01</v-tab>
-                <v-tab>P02</v-tab>
-                <v-tab>P03</v-tab>
-                <v-tab>P04</v-tab>
-                <v-tab>P05</v-tab>
-                <v-tab>P06</v-tab>
-                <v-tab>P07</v-tab>
-
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-                <v-tab-item>
-                    <sgic-indicators-management />
-                </v-tab-item>
-            </v-tabs>
+                    <template v-slot:footer.prepend>
+                        <v-btn text @click="dialogs.indicator_sgic_form = true">New SGIC Indicator</v-btn>
+                    </template>
+                </v-data-table>
+            </v-card-text>
         </v-card>
     </drawer-layout>
 </template>
 
 <script>
 import DrawerLayoutDefaults from "./Dashboard/DrawerLayoutDefaults";
-import SgicAppActions from "./Indicators/SgicAppActions";
-import SgicIndicatorsManagement from "./Indicators/SgicIndicatorsManagement";
 
 export default {
-    components: {SgicIndicatorsManagement, SgicAppActions},
     mixins: [DrawerLayoutDefaults],
 
     props: {
@@ -61,16 +59,53 @@ export default {
 
     data() {
         return {
+            title: '',
 
+            search: '',
+
+            loading: false,
+
+            headers: [
+                { text: 'Period', value: 'period',},
+                { text: 'Title', value: 'title',},
+                { text: 'Status', value: 'status',},
+                { text: 'Indicators', value: 'indicators', filterable: false,},
+                { text: 'N/A', value: 'n_a', filterable: false, },
+                { text: 'Empty', value: 'empty', filterable: false, },
+                { text: 'Actions', value: 'actions', filterable: false, sortable: false,},
+            ],
+
+            items: [],
+
+            dialogs: {
+                indicator_sgic_form: true,
+            }
         }
     },
 
     mounted() {
-
+        this.fakeData();
     },
 
     methods: {
+        fakeData() {
+            this.items = [...Array(20).keys()].map(() => ({
+                id: _.uniqueId('sgic_indicator_'),
+                period: _.sample(['2009/2010', '2010/2011', '2011/2012', '2012/2013', '2013/2014', '2014/2015', '2016/2017', '2017/2018', '2018/2019', '2019/2020', '2020/2021']),
+                title: faker.lorem.words(),
+                status: _.sample(['Sent', 'Pending', 'In Revision', 'Ready to Sent']),
+                indicators: 120,
+                n_a: _.random(10, 20),
+                empty: _.random(10, 20),
+            }));
+        },
 
+        manage(){
+            this.loading = true;
+            window.location.href = route('indicators.sgic.manage', {
+                sgicId: 1
+            })
+        }
     },
 
     computed: {
