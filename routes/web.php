@@ -32,6 +32,7 @@ Route::get('/data-gathering/{report}/results/{request}', [ReportResults::class, 
 Route::get('/indicators/SGIC', [Indicators::class, 'SGIC'])->name('indicators.sgic.index');
 Route::get('/indicators/SGIC/{sgicId}', [Indicators::class, 'sgicManage'])->name('indicators.sgic.manage');
 Route::get('/indicators/satisfaction', [Indicators::class, 'satisfaction'])->name('indicators.satisfaction.index');
+Route::get('/indicators/satisfaction/{satisfactionId}', [Indicators::class, 'satisfactionManage'])->name('indicators.satisfaction.manage');
 
 Route::get('/reports', [Reports::class, 'index'])->name('reports.index');
 

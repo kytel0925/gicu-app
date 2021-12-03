@@ -6,11 +6,6 @@
             <v-container>
                 <v-row>
                     <v-col>
-
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col>
                         <v-autocomplete
                             v-model="current.subprocess"
                             :items="subprocesses"

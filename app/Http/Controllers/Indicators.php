@@ -37,4 +37,11 @@ class Indicators extends Controller
 
         return Inertia::render('IndicatorsSatisfaction', $data);
     }
+
+    public function satisfactionManage()
+    {
+        $data = static::getProps()->toArray();
+
+        return Inertia::render('IndicatorsSatisfactionManagement', $data);
+    }
 }

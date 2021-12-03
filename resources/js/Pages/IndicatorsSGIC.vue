@@ -39,7 +39,7 @@
                     </template>
 
                     <template v-slot:footer.prepend>
-                        <v-btn text @click="dialogs.indicator_sgic_form = true">New SGIC Indicator</v-btn>
+                        <v-btn text @click="dialogs.indicator_sgic_form = true">New SGIC Indicators</v-btn>
                     </template>
                 </v-data-table>
             </v-card-text>
