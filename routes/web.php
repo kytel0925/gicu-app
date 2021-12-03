@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Fakes\Results;
+use App\Http\Controllers\Indicators;
 use App\Http\Controllers\ReportRequests;
 use App\Http\Controllers\ReportResults;
+use App\Http\Controllers\Reports;
 use App\Http\Controllers\RuntimeConnections;
 use App\Http\Controllers\Tags;
 use App\Http\Controllers\Templates;
@@ -22,13 +24,20 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', [Dashboard::class, 'index'])->name('index.get');
 
-Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard.index');
-Route::get('/dashboard/runtime-connections', [RuntimeConnections::class, 'index'])->name('dashboard.runtime-connections.index');
-Route::get('/dashboard/report/{report}/requests', [ReportRequests::class, 'index'])->name('dashboard.report-requests.index');
-Route::get('/dashboard/report/{report}/results/{request}', [ReportResults::class, 'index'])->name('dashboard.report-results.index');
+Route::get('/', [Dashboard::class, 'index'])->name('dashboard.index');
 
-Route::get('/dashboard/tags', [Tags::class, 'index'])->name('dashboard.tags.index');
-Route::get('/dashboard/templates', [Templates::class, 'index'])->name('dashboard.templates.index');
+Route::get('/data-gathering/{report}/requests', [ReportRequests::class, 'index'])->name('dashboard.report-requests.index');
+Route::get('/data-gathering/{report}/results/{request}', [ReportResults::class, 'index'])->name('dashboard.report-results.index');
+
+Route::get('/indicators/SGIC', [Indicators::class, 'SGIC'])->name('indicators.sgic.index');
+Route::get('/indicators/satisfaction', [Indicators::class, 'satisfaction'])->name('indicators.satisfaction.index');
+
+Route::get('/reports', [Reports::class, 'index'])->name('reports.index');
+
+Route::get('/tags', [Tags::class, 'index'])->name('dashboard.tags.index');
+Route::get('/templates', [Templates::class, 'index'])->name('dashboard.templates.index');
+Route::get('/runtime-connections', [RuntimeConnections::class, 'index'])->name('dashboard.runtime-connections.index');
+
 
 /*Route::get('/', function () {
     return Inertia::render('Welcome', [

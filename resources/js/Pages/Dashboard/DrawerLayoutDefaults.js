@@ -14,16 +14,18 @@ export default {
     }),
 
     mounted() {
-        let builder = new DrawerItemsBuilder();
-
-        builder.defaults();
-
-        this.drawer.setItems(builder.get());
-
-        this.drawerDefaults();
+        this.setDashboardDrawer();
     },
 
     methods: {
+        setDashboardDrawer() {
+            let builder = DrawerItemsBuilder.default();
+
+            this.drawer.setItems(builder.get());
+
+            this.drawerDefaults();
+        },
+
         drawerDefaults(){
 
         },

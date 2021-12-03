@@ -17,6 +17,13 @@
 
         <!-- Scripts -->
         @routes
+
+        @if(!app()->environment('production'))
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js" integrity="sha512-/seDHxVfh1NvFUscAj8GsHQVZJvr2jjAoYsNL7As2FCaFHUHYIarl3sRCvVlFgyouVNiRgHIebyLKjpgd1SLDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/locales/en/faker.en.min.js" integrity="sha512-mxra1TXulw8G25XhwqZ8XGz69etSxlaa4HCcM+0ZVDbIfMakqnxliiSO9hnsq6hrXTFL9jwNBAUIyh//D2qCPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/locales/es/faker.es.min.js" integrity="sha512-9HRtTCDYQHJ2l/gSZ09f/hj5wMTrzuvA6VKvPCzX7uvv+3dYwlMM2B4YnTjWVl3ds5eQdflzxUCrRmhYDFeaOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        @endif
+
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">

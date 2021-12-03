@@ -15,6 +15,7 @@
 import DrawerLayoutDefaults from "./Dashboard/DrawerLayoutDefaults";
 
 export default {
+    components: {},
     mixins: [DrawerLayoutDefaults],
 
     methods: {

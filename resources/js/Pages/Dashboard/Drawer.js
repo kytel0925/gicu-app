@@ -93,6 +93,14 @@ class DrawerItem{
     setItems(items){
         this.items = _.values(items).filter(item => item instanceof DrawerItem);
 
+        this.setCurrentIfItemsAre();
+
+        return this;
+    }
+
+    setCurrentIfItemsAre(){
+        this.current = this.items.filter(item => item.current).length > 0;
+
         return this;
     }
 }
@@ -108,28 +116,21 @@ class DrawerItemsBuilder{
         return this;
     }
 
-    defaults(){
-        this.items.push(...[
-            this.dashboard(),
-            this.reports(),
-            this.tags(),
-            this.settings(),
-        ]);
-
-        return this;
-    }
-
     get() {
         return this.items;
     }
 
     dashboard(){
-        return (new DrawerItem('dashboard.index', 'Dashboard', 'mdi-view-dashboard'))
+        let item = (new DrawerItem('dashboard.index', 'Dashboard', 'mdi-view-dashboard'))
             .setRoute();
+
+        this.items.push(item);
+
+        return item;
     }
 
-    reports(reports){
-        let item = (new DrawerItem('dashboard.report-requests.index', 'Reports', 'mdi-home-analytics'));
+    dataGathering(reports){
+        let item = (new DrawerItem('dashboard.report-requests.index', 'Data Gathering', 'mdi-database-marker'));
 
         reports = reports || _.get(Inertia, 'page.props.reports', []).map(
             item => (
@@ -145,19 +146,74 @@ class DrawerItemsBuilder{
 
         item.setItems(reports);
 
+        this.items.push(item);
+
         return item;
     }
 
     tags() {
-        return (new DrawerItem('dashboard.tags.index', 'Tags', 'mdi-tag-multiple'))
+        let item = (new DrawerItem('dashboard.tags.index', 'Tags', 'mdi-tag-multiple'))
             .setRoute();
+
+        this.items.push(item);
+
+        return item;
+    }
+
+    indicators() {
+        let item = (new DrawerItem('indicators', 'Indicators', 'mdi-chart-timeline-variant'));
+
+        item.setItems([
+            DrawerItemsBuilder.getSgicIndicatorItem(),
+            DrawerItemsBuilder.getSatisfactionIndicatorItem(),
+        ]);
+
+        this.items.push(item);
+
+        return item;
+    }
+
+    reports() {
+        let item = (new DrawerItem('reports.index', 'Reports', 'mdi-file-chart'))
+            .setRoute();
+
+        this.items.push(item);
+
+        return item;
     }
 
     settings() {
         let runtimeConnections = (new DrawerItem('dashboard.runtime-connections.index', 'Runtime Connections', 'mdi-connection')).setRoute();
 
-        return (new DrawerItem('settings', 'Settings', 'mdi-cog'))
+        let item = (new DrawerItem('settings', 'Settings', 'mdi-cog'))
             .setItems([runtimeConnections]);
+
+        this.items.push(item);
+
+        return item;
+    }
+
+    static getSgicIndicatorItem() {
+        return (new DrawerItem('indicators.sgic.index', 'SGIC', 'mdi-chart-tree'))
+            .setRoute();
+    }
+
+    static getSatisfactionIndicatorItem() {
+        return (new DrawerItem('indicators.satisfaction.index', 'Satisfaction', 'mdi-chart-timeline-variant-shimmer'))
+            .setRoute();
+    }
+
+    static default(){
+        let defaultDrawer = new DrawerItemsBuilder();
+
+        defaultDrawer.dashboard();
+        defaultDrawer.dataGathering();
+        defaultDrawer.indicators();
+        defaultDrawer.reports();
+        defaultDrawer.tags();
+        defaultDrawer.settings();
+
+        return defaultDrawer;
     }
 }
 
