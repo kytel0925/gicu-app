@@ -78,7 +78,7 @@ export default {
             items: [],
 
             dialogs: {
-                indicator_sgic_form: true,
+                indicator_sgic_form: false,
             }
         }
     },

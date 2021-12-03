@@ -10,7 +10,7 @@
         </v-tooltip>
         <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon>
+                <v-btn icon @click="dialogs.process_management = true">
                     <v-icon v-bind="attrs" v-on="on">mdi-playlist-plus</v-icon>
                 </v-btn>
             </template>
@@ -26,19 +26,25 @@
         </v-tooltip>
 
         <!-- dialogs (all the dialog is a component or only the vcard (content) -->
+        <v-dialog v-model="dialogs.process_management" width="800px">
+            <sgic-process-management @close="dialogs.process_management = false"  />
+        </v-dialog>
     </div>
 </template>
 
 <script>
+import SgicProcessManagement from "./SgicProcessManagement";
 export default {
-    components: {},
+    components: {SgicProcessManagement},
 
     props: {
 
     },
 
     data: () => ({
-
+        dialogs: {
+            process_management: false,
+        }
     }),
 
     methods: {

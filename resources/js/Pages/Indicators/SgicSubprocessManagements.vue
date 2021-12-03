@@ -37,7 +37,11 @@
         >
             <v-card flat>
                 <v-card-title>
-                    <span class="text-h5">Subprocess edit form</span>
+                    <span class="text-h5">{{
+                            currentEditItemIndex === -1?
+                                'Add Subprocess for P#' :
+                                'Edit Subprocess'
+                        }}</span>
                 </v-card-title>
 
                 <v-card-text>
