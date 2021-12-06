@@ -130,7 +130,7 @@ class DrawerItemsBuilder{
     }
 
     dataGathering(reports){
-        let item = (new DrawerItem('dashboard.report-requests.index', 'Data Gathering', 'mdi-database-marker'));
+        let item = (new DrawerItem('report-requests', 'Data Gathering', 'mdi-database-marker'));
 
         reports = reports || _.get(Inertia, 'page.props.reports', []).map(
             item => (
@@ -139,21 +139,12 @@ class DrawerItemsBuilder{
                     _.get(item, 'name', `Report ${item.id}`),
                     'mdi-home-analytics'
                 )
-            ).setRoute('dashboard.report-requests.index', {
+            ).setRoute('report-requests.index', {
                 report: item.id,
             })
         );
 
         item.setItems(reports);
-
-        this.items.push(item);
-
-        return item;
-    }
-
-    tags() {
-        let item = (new DrawerItem('dashboard.tags.index', 'Tags', 'mdi-tag-multiple'))
-            .setRoute();
 
         this.items.push(item);
 
@@ -182,6 +173,20 @@ class DrawerItemsBuilder{
         return item;
     }
 
+    parameters() {
+        let item = (new DrawerItem('parameters', 'Parameters', 'mdi-developer-board'));
+
+        item.setItems([
+            DrawerItemsBuilder.getAcademicPeriodsItem(),
+            DrawerItemsBuilder.getDegreesItem(),
+            DrawerItemsBuilder.getTagsItem(),
+        ]);
+
+        this.items.push(item);
+
+        return item;
+    }
+
     settings() {
         let runtimeConnections = (new DrawerItem('dashboard.runtime-connections.index', 'Runtime Connections', 'mdi-connection')).setRoute();
 
@@ -203,6 +208,21 @@ class DrawerItemsBuilder{
             .setRoute();
     }
 
+    static getTagsItem(){
+        return (new DrawerItem('tags.index', 'Tags', 'mdi-tag-multiple'))
+            .setRoute();
+    }
+
+    static getAcademicPeriodsItem(){
+        return (new DrawerItem('academic-periods.index', 'Academic Periods', 'mdi-calendar-text'))
+            .setRoute();
+    }
+
+    static getDegreesItem() {
+        return (new DrawerItem('degrees.index', 'Degrees', 'mdi-school'))
+            .setRoute();
+    }
+
     static default(){
         let defaultDrawer = new DrawerItemsBuilder();
 
@@ -210,7 +230,7 @@ class DrawerItemsBuilder{
         defaultDrawer.dataGathering();
         defaultDrawer.indicators();
         defaultDrawer.reports();
-        defaultDrawer.tags();
+        defaultDrawer.parameters();
         defaultDrawer.settings();
 
         return defaultDrawer;

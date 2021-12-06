@@ -1,4 +1,5 @@
 <template>
+    <!-- values can have multiple entries (by program) -->
     <drawer-layout
         :drawer="drawer"
         title="SGIC Indicators"

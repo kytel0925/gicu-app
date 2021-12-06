@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AcademicPeriods;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\Degrees;
 use App\Http\Controllers\Fakes\Results;
 use App\Http\Controllers\Indicators;
 use App\Http\Controllers\ReportRequests;
@@ -26,8 +28,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Dashboard::class, 'index'])->name('dashboard.index');
 
-Route::get('/data-gathering/{report}/requests', [ReportRequests::class, 'index'])->name('dashboard.report-requests.index');
-Route::get('/data-gathering/{report}/results/{request}', [ReportResults::class, 'index'])->name('dashboard.report-results.index');
+Route::get('/data-gathering/{report}/requests', [ReportRequests::class, 'index'])->name('report-requests.index');
+Route::get('/data-gathering/{report}/results/{request}', [ReportResults::class, 'index'])->name('report-results.index');
 
 Route::get('/indicators/SGIC', [Indicators::class, 'SGIC'])->name('indicators.sgic.index');
 Route::get('/indicators/SGIC/{sgicId}', [Indicators::class, 'sgicManage'])->name('indicators.sgic.manage');
@@ -36,7 +38,10 @@ Route::get('/indicators/satisfaction/{satisfactionId}', [Indicators::class, 'sat
 
 Route::get('/reports', [Reports::class, 'index'])->name('reports.index');
 
-Route::get('/tags', [Tags::class, 'index'])->name('dashboard.tags.index');
+Route::get('/tags', [Tags::class, 'index'])->name('tags.index');
+Route::get('/academic-periods', [AcademicPeriods::class, 'index'])->name('academic-periods.index');
+Route::get('/degrees', [Degrees::class, 'index'])->name('degrees.index');
+
 Route::get('/templates', [Templates::class, 'index'])->name('dashboard.templates.index');
 Route::get('/runtime-connections', [RuntimeConnections::class, 'index'])->name('dashboard.runtime-connections.index');
 
