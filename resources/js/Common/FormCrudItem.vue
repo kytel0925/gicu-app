@@ -1,0 +1,174 @@
+<template>
+    <v-card flat :loading="loading">
+        <v-card-title>
+            <span class="text-h5">{{ title }}</span>
+        </v-card-title>
+
+        <v-card-text>
+            <v-container>
+                <v-row>
+                    <v-col>
+                        <v-text-field
+                            v-model="currentItem.code"
+                            label="Code"
+                            :placeholder="codePlaceHolder"
+                            persistent-placeholder
+                            :readonly="readonlyCode"
+                            :class="{'font-italic': readonlyCode}"
+                        >
+                            <template v-slot:append-outer>
+                                <v-tooltip bottom v-if="readonlyCode">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon @click="readonlyCode = false">
+                                            <v-icon
+                                                v-bind="attrs"
+                                                v-on="on"
+                                            >
+                                                mdi-pencil
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Edit Code</span>
+                                </v-tooltip>
+                                <v-tooltip bottom v-else>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon @click="readonlyCode = true">
+                                            <v-icon
+                                                v-bind="attrs"
+                                                v-on="on"
+                                            >
+                                                mdi-pencil-minus
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Cancel Edit</span>
+                                </v-tooltip>
+                            </template>
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-text-field
+                            v-model="currentItem.title"
+                            label="Title"
+                            required
+                            placeholder="Enter a Title"
+                            persistent-placeholder
+                        />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-textarea
+                            v-model="currentItem.description"
+                            label="Description"
+                            placeholder="Describe this item (optional)"
+                            persistent-placeholder
+                        />
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="save"
+            >
+                {{ saveButtonLabel }}
+            </v-btn>
+            <v-btn
+                color="red darken-1"
+                text
+                @click="cancel"
+            >
+                Cancel
+            </v-btn>
+        </v-card-actions>
+    </v-card>
+</template>
+
+<script>
+export default {
+    props: {
+        value: {
+            type: Object,
+            required: true,
+        },
+
+        newItem: {
+            type: Boolean,
+            default: false,
+        },
+
+        loading: {
+            type: Boolean,
+            default: false,
+        },
+    },
+
+    created() {
+        this.cloneValue(this.value);
+    },
+
+    data() {
+        return {
+            readonlyCode: true,
+
+            currentItem: {},
+        }
+    },
+
+    methods: {
+        save() {
+            let current = Object.assign({}, this.currentItem);
+
+            this.$emit('input', current);
+            this.$emit('save', current);
+        },
+
+        cancel() {
+            this.$emit('cancel');
+        },
+
+        cloneValue(value) {
+            //in here we reset the form validations
+            this.currentItem = Object.assign({}, value);
+        },
+    },
+
+    computed: {
+        title() {
+            return this.newItem?
+                'Add Item' :
+                'Edit Item';
+        },
+
+        saveButtonLabel() {
+            return this.newItem?
+                'Store' :
+                'Save';
+        },
+
+        codePlaceHolder() {
+            return 'Enter a Code otherwise it will be autogenerated';
+        },
+    },
+
+    watch: {
+        value: {
+            handler(value){
+                this.cloneValue(value);
+            },
+            deep: true,
+        }
+    }
+}
+</script>
+
+<style scoped>
+
+</style>

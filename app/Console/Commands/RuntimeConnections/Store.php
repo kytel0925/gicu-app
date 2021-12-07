@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\RuntimeConnections;
 
-use CTDesarrollo\Regulus\AppSettingRepository;
-use CTDesarrollo\Regulus\Helpers\RuntimeConnection;
-use CTDesarrollo\Regulus\Traits\DBHelper;
+//use CTDesarrollo\Regulus\AppSettingRepository;
+//use CTDesarrollo\Regulus\Helpers\RuntimeConnection;
+//use CTDesarrollo\Regulus\Traits\DBHelper;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -14,7 +14,7 @@ use Throwable;
  */
 class Store extends Command
 {
-    use DBHelper;
+    //use DBHelper;
 
     /**
      * The name and signature of the console command.
